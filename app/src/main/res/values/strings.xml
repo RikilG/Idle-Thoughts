@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Idle Thoughts</string>
+    <string name="connecting">Connecting&#8230;</string>
+    <string name="no_network">status : Network Disconnected.</string>
+    <string name="file_unavailable">File not present in Dropbox</string>
+    <string name="local_filename">thoughts.txt</string>
+    <string name="server_filename">thoughts-db.txt</string>
+    <string name="account_connected">status : Account Connected.</string>
+    <string name="sync_meta">status : Retrieving File Metadata&#8230;</string>
+    <string name="download_file">status : Downloading Latest File&#8230;</string>
+    <string name="sync_complete">status : Up to Date with server.</string>
+    <string name="exception">Exception : </string>
+</resources>
