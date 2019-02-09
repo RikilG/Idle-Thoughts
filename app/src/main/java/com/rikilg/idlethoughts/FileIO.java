@@ -12,22 +12,29 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class FileIO {
+class FileIO {
 
     private Context c;
     private String filename;
+
+    private final int PURPOSE_SHOW = 1;
+    private final int PURPOSE_EDIT = 2;
 
     FileIO(Context c, String filename) {
         this.c = c;
         this.filename = filename;
     }
 
-    public void write(Context c,String content,String fileName) {
+     void write(String content) {
+        write(c, content, filename);
+     }
+
+     private void write(Context c,String content,String fileName) {
         try {
             FileOutputStream outputStream = c.openFileOutput(fileName, Context.MODE_PRIVATE);
             outputStream.write(content.getBytes());
             outputStream.close();
-            Toast.makeText(c,"Text Saved", Toast.LENGTH_LONG).show();
+            Toast.makeText(c,"Text Saved", Toast.LENGTH_SHORT).show();
         } catch (FileNotFoundException e) {
             //Toast.makeText(c,"Flie Name not given.Using today's date", Toast.LENGTH_LONG).show();
             e.printStackTrace();
@@ -37,11 +44,13 @@ public class FileIO {
         }
     }
 
-    void read(TextView textView) {
-        read(c,textView,filename);
+    String read(int purpose) {
+        return read(c,filename,purpose);
     }
 
-    void read(Context c, TextView textView,/* TextView titleName,*/ String fileName) {
+    private String read(Context c,/* TextView titleName,*/ String fileName, int purpose) {
+        int count = 1;
+        String temp;
         try {
             FileInputStream fileInputStream= c.openFileInput(fileName);
             InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
@@ -50,9 +59,16 @@ public class FileIO {
             String lines;
             //stringBuilder.append("\n");
             while ((lines=bufferedReader.readLine())!=null) {
-                stringBuilder.append(lines+"\n");
+                if(purpose == PURPOSE_SHOW) {
+                    temp = Integer.toString(count) + " : " + lines + "\n";
+                    count += 1;
+                }
+                else {
+                    temp = lines + "\n";
+                }
+                stringBuilder.append(temp);
             }
-            textView.setText(stringBuilder.toString());
+            return stringBuilder.toString();
             //titleName.setText(fileName);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -61,6 +77,7 @@ public class FileIO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     void delete(Context c,String fileName){
